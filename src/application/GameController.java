@@ -32,7 +32,7 @@ public class GameController {
 
 	@FXML
 	public void playButton() {
-	    playButton.getScene().setRoot(game.getRootPane());
+	   // playButton.getScene().setRoot(game.getRootPane());
 
 	}
 
