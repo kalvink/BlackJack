@@ -15,7 +15,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			VBox root = (VBox) FXMLLoader.load(getClass().getResource("cards.fxml"));
+			VBox root = (VBox) FXMLLoader.load(getClass().getResource("menu.fxml"));
 			Scene scene = new Scene(root, 1280, 800);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			Stage publicStage = primaryStage;
