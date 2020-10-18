@@ -22,6 +22,7 @@ public class Main extends Application {
 			publicStage.setScene(scene);
 			//todo add resizable canvas later?
 			publicStage.setResizable(false);
+			//publicStage.setFullScreen(true);
 			publicStage.setTitle("Black Jack by Kalvin Kao");
 			//publicStage.getIcons().add(new Image("logo.png"));
 			publicStage.show();
@@ -34,5 +35,9 @@ public class Main extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
+
+
+
+
 	}
 }
