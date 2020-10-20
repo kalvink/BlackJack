@@ -19,13 +19,26 @@ import java.util.logging.Logger;
 public class GameController {
     private Stage stage;
 
-
+    //Main Menu
 	@FXML
 	Button playButton;
 	@FXML
 	Button aboutButton;
 	@FXML
 	Button quitButton;
+	//Play Screen
+	@FXML
+	Button backToMenu;
+	@FXML
+	Button resetBank;
+	@FXML
+	Button plus1,plus5,plus25,plus50,plus100,plus500;
+	@FXML
+	Button startGame;
+	@FXML
+	Button backToPlayMenu;
+
+	//
 
 	int [] clovers = {1,2,3,4,5,6,7,8,9,10,11,12,13};
 	int [] hearts = {1,2,3,4,5,6,7,8,9,10,11,12,13};
@@ -37,8 +50,50 @@ public class GameController {
 	@FXML
 	public void playButton() {
 
-	   // playButton.getScene().setRoot(game.getRootPane());
             stage = (Stage) playButton.getScene().getWindow();
+
+			try {
+				VBox root = (VBox) FXMLLoader.load(getClass().getResource("playmenu.fxml"));
+				Scene scene = new Scene(root, 1280, 800);
+	            stage.setScene(scene);
+	            stage.show();
+				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+				stage.setScene(scene);
+				stage.setResizable(false);
+				stage.show();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+	}
+
+	@FXML
+	public void backToMenu() {
+
+            stage = (Stage) backToMenu.getScene().getWindow();
+
+			try {
+				VBox root = (VBox) FXMLLoader.load(getClass().getResource("menu.fxml"));
+				Scene scene = new Scene(root, 1280, 800);
+	            stage.setScene(scene);
+	            stage.show();
+				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+				stage.setScene(scene);
+				stage.setResizable(false);
+				stage.show();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+	}
+
+
+	@FXML
+	public void startGame() {
+
+            stage = (Stage) startGame.getScene().getWindow();
 
 			try {
 				VBox root = (VBox) FXMLLoader.load(getClass().getResource("cards.fxml"));
@@ -56,11 +111,80 @@ public class GameController {
 
 	}
 
+	@FXML
+	public void plus1() {
 
+
+	}
+
+	@FXML
+	public void plus5() {
+
+
+	}
+	@FXML
+	public void plus25() {
+
+
+	}
+
+	@FXML
+	public void plus50() {
+
+
+	}
+
+	@FXML
+	public void plus100() {
+
+
+	}
+	@FXML
+	public void plus500() {
+
+
+	}
+	@FXML
+	public void resetBank() {
+
+
+	}
+	@FXML
+	public void backToPlayMenu(){
+        stage = (Stage) backToPlayMenu.getScene().getWindow();
+
+		try {
+			VBox root = (VBox) FXMLLoader.load(getClass().getResource("playmenu.fxml"));
+			Scene scene = new Scene(root, 1280, 800);
+            stage.setScene(scene);
+            stage.show();
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			stage.setScene(scene);
+			stage.setResizable(false);
+			stage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	@FXML
 	public void aboutButton() {
+        stage = (Stage) playButton.getScene().getWindow();
 
+		try {
+			VBox root = (VBox) FXMLLoader.load(getClass().getResource("cards.fxml"));
+			Scene scene = new Scene(root, 1280, 800);
+            stage.setScene(scene);
+            stage.show();
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			stage.setScene(scene);
+			stage.setResizable(false);
+			stage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
