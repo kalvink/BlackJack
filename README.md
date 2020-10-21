@@ -16,8 +16,6 @@ Tools used
 
 Other
 
-
-Change later
-![Music Player by Kalvin Kao](https://i.imgur.com/FT6le7h.png)
+![Blackjack by Kalvin Kao](https://i.imgur.com/QDHndHG.png)
 
 
