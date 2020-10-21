@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -28,6 +28,10 @@ public class CardsController implements Initializable {
 	@FXML
 	TextField Bet = new TextField();
 	@FXML
+	Text dealerTotal = new Text();
+	@FXML
+	Text handTotal = new Text();
+	@FXML
 	Button bet1, bet5, bet25, bet50, bet100, bet500, dealButton;
 	@FXML
 	ImageView card1, card2, dealercard1, dealercard2;
@@ -36,6 +40,8 @@ public class CardsController implements Initializable {
 	int bet = 0;
 	int suit = 0;
 	int cardNum = 0;
+	int yourHand = 0;
+	int dealerHand = 0;
 
 	int[] spades = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
 	int[] hearts = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
@@ -53,15 +59,16 @@ public class CardsController implements Initializable {
 		if (bet == 0) {
 
 		} else {
-			drawCard(card1);
-			drawCard(card2);
-			drawCard(dealercard1);
-			drawCard(dealercard2);
+
+			yourHand = drawCard(card1, yourHand);
+			yourHand = drawCard(card2, yourHand);
+			dealerHand = drawCard(dealercard1, dealerHand);
+			dealerHand = drawCard(dealercard2, dealerHand);
 			dealButton.setDisable(true);
 		}
 	}
 
-	public void drawCard(ImageView card) {
+	public int drawCard(ImageView card, int hand) {
 		Random rand = new Random();
 		// 0-3 Suits
 		suit = rand.nextInt(4);
@@ -71,33 +78,55 @@ public class CardsController implements Initializable {
 			// 0-12 Cards
 			cardNum = rand.nextInt(13);
 			System.out.println("Spades:" + spades[cardNum]);
-			createCard(card,suit,cardNum);
+			createCard(card, suit, cardNum);
+			hand = hand + cardNum;
 		}
 		// Hearts
 		else if (suit == 1) {
 			// 0-12 Cards
 			cardNum = rand.nextInt(13);
 			System.out.println("Hearts:" + hearts[cardNum]);
-			createCard(card,suit,cardNum);
+			createCard(card, suit, cardNum);
+			hand = hand + cardNum;
 		}
 		// Clubs
 		else if (suit == 2) {
 			// 0-12 Cards
 			cardNum = rand.nextInt(13);
 			System.out.println("Clubs:" + clubs[cardNum]);
-			createCard(card,suit,cardNum);
+			createCard(card, suit, cardNum);
+			hand = hand + cardNum;
 		}
 		// Diamonds
 		else if (suit == 3) {
 			// 0-12 Cards
 			cardNum = rand.nextInt(13);
 			System.out.println("Diamonds:" + diamonds[cardNum]);
-			createCard(card,suit,cardNum);
+			createCard(card, suit, cardNum);
+			hand = hand + cardNum;
+		}
+		return hand;
+	}
+
+
+	public void handValues(int hand){
+		//face cards
+		if(cardNum == 11 || cardNum == 12 || cardNum == 13){
+			hand = hand + 10;
+		}
+		//TODO
+		//ace (check for +1 or +11)
+		else if(cardNum == 1){
+			hand = hand + 1;
+			if (hand <21){
+				hand = hand+11;
+			}
+
 		}
 	}
 
 
-	//Deck Matrix
+	// Deck Matrix
 	String[][] deckPath = {
 			{ "ace_of_spades", "2_of_spades", "3_of_spades", "4_of_spades", "5_of_spades", "6_of_spades", "7_of_spades",
 					"8_of_spades", "9_of_spades", "10_of_spades", "jack_of_spades", "queen_of_spades",
@@ -125,6 +154,8 @@ public class CardsController implements Initializable {
 	public void createCard(ImageView card, int suit, int cardNum) {
 		card.setImage(new Image("/" + deckPath[suit][cardNum] + ".png"));
 		card.setVisible(true);
+		handTotal.setText("Your Hand: " + yourHand);
+		dealerTotal.setText("Dealer's Hand: " + dealerHand);
 	}
 
 	@FXML
