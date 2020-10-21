@@ -25,28 +25,17 @@ public class GameController {
 
 	// Main Menu
 	@FXML
-	Button playButton;
-	@FXML
-	Button aboutButton;
-	@FXML
-	Button quitButton;
+	Button playButton, aboutButton, quitButton;
 	// Play Screen
 	@FXML
-	Button backToMenu;
+	Button backToMenu, startGame;
 	@FXML
-	Button resetBank;
-	@FXML
-	Button plus1, plus5, plus25, plus50, plus100, plus500;
-	@FXML
-	Button startGame;
+	Button plus1, plus5, plus25, plus50, plus100, plus500, resetBank;
 	@FXML
 	TextField theBank = new TextField();
 	//
 	static int bank = 0;
-	int[] clovers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
-	int[] hearts = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
-	int[] spades = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
-	int[] diamonds = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+
 	@FXML
 	public void playButton() {
 

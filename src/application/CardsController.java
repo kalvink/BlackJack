@@ -3,22 +3,19 @@ package application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.fxml.JavaFXBuilderFactory;
-import javafx.scene.Parent;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
+
 import javafx.scene.layout.VBox;
+
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 public class CardsController implements Initializable {
 	private Stage stage;
@@ -47,50 +44,43 @@ public class CardsController implements Initializable {
 
 	@FXML
 	public void bet1() {
-		bet++;
-		balance--;
-		Balance.setText("Bank: $" + balance);
-		Bet.setText("Bet: $" + bet);
+		betFunction(1, bet1);
 	}
 
 	@FXML
 	public void bet5() {
-		bet = bet + 5;
-		balance = balance - 5;
-		Balance.setText("Bank: $" + balance);
-		Bet.setText("Bet: $" + bet);
+		betFunction(5, bet5);
 	}
 
 	@FXML
 	public void bet25() {
-		bet = bet + 25;
-		balance = balance - 25;
-		Balance.setText("Bank: $" + balance);
-		Bet.setText("Bet: $" + bet);
+		betFunction(25, bet25);
 	}
 
 	@FXML
 	public void bet50() {
-		bet = bet + 50;
-		balance = balance - 50;
-		Balance.setText("Bank: $" + balance);
-		Bet.setText("Bet: $" + bet);
+		betFunction(50, bet50);
 	}
 
 	@FXML
 	public void bet100() {
-		bet = bet + 100;
-		balance = balance - 100;
-		Balance.setText("Bank: $" + balance);
-		Bet.setText("Bet: $" + bet);
+		betFunction(100, bet100);
 	}
 
 	@FXML
 	public void bet500() {
-		bet = bet + 500;
-		balance = balance - 500;
-		Balance.setText("Bank: $" + balance);
-		Bet.setText("Bet: $" + bet);
+		betFunction(500, bet500);
+	}
+
+	public void betFunction(int betAmount, Button btnX) {
+		if (balance >= betAmount) {
+			bet = bet + betAmount;
+			balance = balance - betAmount;
+			Balance.setText("Bank: $" + balance);
+			Bet.setText("Bet: $" + bet);
+		} else {
+			btnX.setDisable(true);
+		}
 	}
 
 	@FXML
