@@ -7,15 +7,16 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Random;
 import java.util.ResourceBundle;
-
 
 public class CardsController implements Initializable {
 	private Stage stage;
@@ -27,19 +28,103 @@ public class CardsController implements Initializable {
 	@FXML
 	TextField Bet = new TextField();
 	@FXML
-	Button bet1, bet5, bet25, bet50, bet100, bet500;
+	Button bet1, bet5, bet25, bet50, bet100, bet500, dealButton;
+	@FXML
+	ImageView card1, card2, dealercard1, dealercard2;
 
-	int balance = GameController.bank;
+	int balance = MenuController.bank;
 	int bet = 0;
-	int[] clovers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
-	int[] hearts = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
+	int suit = 0;
+	int cardNum = 0;
+
 	int[] spades = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
+	int[] hearts = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
+	int[] clubs = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
 	int[] diamonds = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
 
 	@FXML
 	public void loadBalance() {
 		Balance.setText("Bank: $" + balance);
 		Balance.setFocusTraversable(false);
+	}
+
+	@FXML
+	public void dealFunction() {
+		if (bet == 0) {
+
+		} else {
+			drawCard(card1);
+			drawCard(card2);
+			drawCard(dealercard1);
+			drawCard(dealercard2);
+			dealButton.setDisable(true);
+		}
+	}
+
+	public void drawCard(ImageView card) {
+		Random rand = new Random();
+		// 0-3 Suits
+		suit = rand.nextInt(4);
+		System.out.println("Suit:" + suit);
+		// Spades
+		if (suit == 0) {
+			// 0-12 Cards
+			cardNum = rand.nextInt(13);
+			System.out.println("Spades:" + spades[cardNum]);
+			createCard(card,suit,cardNum);
+		}
+		// Hearts
+		else if (suit == 1) {
+			// 0-12 Cards
+			cardNum = rand.nextInt(13);
+			System.out.println("Hearts:" + hearts[cardNum]);
+			createCard(card,suit,cardNum);
+		}
+		// Clubs
+		else if (suit == 2) {
+			// 0-12 Cards
+			cardNum = rand.nextInt(13);
+			System.out.println("Clubs:" + clubs[cardNum]);
+			createCard(card,suit,cardNum);
+		}
+		// Diamonds
+		else if (suit == 3) {
+			// 0-12 Cards
+			cardNum = rand.nextInt(13);
+			System.out.println("Diamonds:" + diamonds[cardNum]);
+			createCard(card,suit,cardNum);
+		}
+	}
+
+
+	//Deck Matrix
+	String[][] deckPath = {
+			{ "ace_of_spades", "2_of_spades", "3_of_spades", "4_of_spades", "5_of_spades", "6_of_spades", "7_of_spades",
+					"8_of_spades", "9_of_spades", "10_of_spades", "jack_of_spades", "queen_of_spades",
+					"king_of_spades" },
+			{ "ace_of_hearts", "2_of_hearts", "3_of_hearts", "4_of_hearts", "5_of_hearts", "6_of_hearts", "7_of_hearts",
+					"8_of_hearts", "9_of_hearts", "10_of_hearts", "jack_of_hearts", "queen_of_hearts",
+					"king_of_hearts" },
+			{ "ace_of_clubs", "2_of_clubs", "3_of_clubs", "4_of_clubs", "5_of_clubs", "6_of_clubs", "7_of_clubs",
+					"8_of_clubs", "9_of_clubs", "10_of_clubs", "jack_of_clubs", "queen_of_clubs", "king_of_clubs" },
+			{ "ace_of_diamonds", "2_of_diamonds", "3_of_diamonds", "4_of_diamonds", "5_of_diamonds", "6_of_diamonds",
+					"7_of_diamonds", "8_of_diamonds", "9_of_diamonds", "10_of_diamonds", "jack_of_diamonds",
+					"queen_of_diamonds", "king_of_diamonds" } };
+	/*
+	 * [0][0] [0][1] [0][2] [0][3] [0][4] [0][5] [0][6] [0][7] [0][8] [0][9]
+	 * [0][10] [0][11] [0][12]
+	 *
+	 * [1]
+	 *
+	 * [2]
+	 *
+	 * [3]
+	 */
+
+	// Sets image onto the imageview card
+	public void createCard(ImageView card, int suit, int cardNum) {
+		card.setImage(new Image("/" + deckPath[suit][cardNum] + ".png"));
+		card.setVisible(true);
 	}
 
 	@FXML
@@ -86,7 +171,7 @@ public class CardsController implements Initializable {
 	@FXML
 	public void backToPlayMenu() {
 		stage = (Stage) backToPlayMenu.getScene().getWindow();
-		GameController.bank = 0;
+		MenuController.bank = 0;
 		try {
 			VBox root = (VBox) FXMLLoader.load(getClass().getResource("/application/playmenu.fxml"));
 			Scene scene = new Scene(root, 1280, 800);
