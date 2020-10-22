@@ -12,7 +12,7 @@
 
 <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CardsController">
   <children>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" style="-fx-background-color: green;" VBox.vgrow="ALWAYS">
+    <AnchorPane fx:id="mainPane" maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" style="-fx-background-color: green;" VBox.vgrow="ALWAYS">
       <children>
             <TextField fx:id="Balance" editable="false" layoutX="14.0" layoutY="713.0" prefHeight="46.0" prefWidth="302.0" text="Bank: $0">
                <font>
@@ -23,7 +23,7 @@
                   <Image url="@../../imgs/5_of_diamonds.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="card2" fitHeight="225.0" fitWidth="150.0" layoutX="581.0" layoutY="407.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <ImageView fx:id="card2" fitHeight="225.0" fitWidth="150.0" layoutX="580.0" layoutY="407.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
                   <Image url="@../../imgs/5_of_diamonds.png" />
                </image>
@@ -33,7 +33,7 @@
                   <Image url="@../../imgs/5_of_diamonds.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="dealercard2" fitHeight="225.0" fitWidth="150.0" layoutX="581.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <ImageView fx:id="dealercard2" fitHeight="225.0" fitWidth="150.0" layoutX="580.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
                   <Image url="@../../imgs/back_cards.png" />
                </image>
@@ -76,12 +76,12 @@
                   <Font name="System Bold" size="40.0" />
                </font>
             </Button>
-          <Button layoutX="506.0" layoutY="704.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="128.0" text="HIT">
+          <Button fx:id="hitButton" layoutX="517.0" layoutY="704.0" mnemonicParsing="false" onAction="#hitAction" prefHeight="65.0" prefWidth="128.0" text="HIT">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>
             </Button>
-            <Button layoutX="657.0" layoutY="704.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="128.0" text="STAND">
+            <Button fx:id="standButton" layoutX="657.0" layoutY="704.0" mnemonicParsing="false" onAction="#standAction" prefHeight="65.0" prefWidth="128.0" text="STAND">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>

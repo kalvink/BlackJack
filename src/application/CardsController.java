@@ -9,10 +9,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
@@ -39,6 +42,12 @@ public class CardsController implements Initializable {
 	ImageView dealercard1, dealercard2;
 	@FXML
 	Button hitButton, standButton;
+
+    ImageView hitCard = new ImageView();
+	ImageView prevCard;
+
+	@FXML
+	AnchorPane mainPane;
 
 	int balance = MenuController.bank;
 	int bet = 0;
@@ -67,15 +76,12 @@ public class CardsController implements Initializable {
 	@FXML
 	public void dealFunction() {
 		if (bet == 0) {
-
 		} else {
-
 			// Initiate card draws
-
 			// Your cards
 			yourHand = drawCard(card1, yourHand) + drawCard(card2, yourHand);
 			handTotal.setText("Your Hand: " + yourHand);
-
+			prevCard = card2;
 			// Dealer
 			dealerTurn = true;
 			dealerHand = drawCard(dealercard1, dealerHand);
@@ -173,8 +179,29 @@ public class CardsController implements Initializable {
 	}
 
 	@FXML
-	public void hitAction() {
+	public void hitAction(){
+		//create imageview card for player
+		ImageView hitCard = new ImageView();
+		Image image1 = new Image("/3_of_hearts.png");
+		hitCard.setImage(image1);
+        hitCard.setFitWidth(150);
+        hitCard.setFitHeight(225);
+        hitCard.setPreserveRatio(true);
+        hitCard.setImage(image1);
+        hitCard.relocate(prevCard.getLayoutX()+30, 407);
+        prevCard = hitCard;
 
+        mainPane.getChildren().add(hitCard);
+
+        System.out.println(card2.getLayoutX());
+        System.out.println(hitCard.getLayoutX());
+
+
+        prevCard = hitCard;
+        hitCard.setVisible(true);
+
+		handTotal.setText("Your Hand: " + yourHand);
+        System.out.println("test");
 	}
 
 	@FXML
