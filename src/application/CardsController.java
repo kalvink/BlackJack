@@ -34,7 +34,11 @@ public class CardsController implements Initializable {
 	@FXML
 	Button bet1, bet5, bet25, bet50, bet100, bet500, dealButton;
 	@FXML
-	ImageView card1, card2, dealercard1, dealercard2;
+	ImageView card1, card2;
+	@FXML
+	ImageView dealercard1, dealercard2;
+	@FXML
+	Button hitButton, standButton;
 
 	int balance = MenuController.bank;
 	int bet = 0;
@@ -42,6 +46,12 @@ public class CardsController implements Initializable {
 	int cardNum = 0;
 	int yourHand = 0;
 	int dealerHand = 0;
+	int aceTempHand = 0;
+	int aceDealerTempHand = 0;
+
+	boolean dealerTurn = false;
+	boolean ace = false;
+	boolean dealerAce = false;
 
 	int[] spades = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
 	int[] hearts = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
@@ -60,10 +70,26 @@ public class CardsController implements Initializable {
 
 		} else {
 
-			yourHand = drawCard(card1, yourHand);
-			yourHand = drawCard(card2, yourHand);
+			// Initiate card draws
+
+			// Your cards
+			yourHand = drawCard(card1, yourHand) + drawCard(card2, yourHand);
+			handTotal.setText("Your Hand: " + yourHand);
+
+			// Dealer
+			dealerTurn = true;
 			dealerHand = drawCard(dealercard1, dealerHand);
-			dealerHand = drawCard(dealercard2, dealerHand);
+			System.out.println("\nyour hand: " + yourHand);
+			System.out.println("\ndealer hand: " + dealerHand);
+
+			// Dealer Ace
+			if (dealerAce) {
+				dealerTotal.setText("Dealer's Hand: " + dealerHand + " or " + 11);
+			} else {
+				dealerTotal.setText("Dealer's Hand: " + dealerHand);
+			}
+			dealercard2.setImage(new Image("/back_cards.png"));
+			dealercard2.setVisible(true);
 			dealButton.setDisable(true);
 		}
 	}
@@ -72,59 +98,89 @@ public class CardsController implements Initializable {
 		Random rand = new Random();
 		// 0-3 Suits
 		suit = rand.nextInt(4);
-		System.out.println("Suit:" + suit);
-		// Spades
-		if (suit == 0) {
-			// 0-12 Cards
-			cardNum = rand.nextInt(13);
-			System.out.println("Spades:" + spades[cardNum]);
+		if (suit == 0) { // Spades
+			cardNum = rand.nextInt(13); // 0-12 Cards
 			createCard(card, suit, cardNum);
-			hand = hand + cardNum;
-		}
-		// Hearts
-		else if (suit == 1) {
-			// 0-12 Cards
-			cardNum = rand.nextInt(13);
-			System.out.println("Hearts:" + hearts[cardNum]);
+			hand = handValues(hand, cardNum);
+		} else if (suit == 1) { // Hearts
+			cardNum = rand.nextInt(13); // 0-12 Cards
 			createCard(card, suit, cardNum);
-			hand = hand + cardNum;
-		}
-		// Clubs
-		else if (suit == 2) {
-			// 0-12 Cards
-			cardNum = rand.nextInt(13);
-			System.out.println("Clubs:" + clubs[cardNum]);
+			hand = handValues(hand, cardNum);
+		} else if (suit == 2) { // Clubs
+			cardNum = rand.nextInt(13); // 0-12 Cards
 			createCard(card, suit, cardNum);
-			hand = hand + cardNum;
-		}
-		// Diamonds
-		else if (suit == 3) {
-			// 0-12 Cards
-			cardNum = rand.nextInt(13);
-			System.out.println("Diamonds:" + diamonds[cardNum]);
+			hand = handValues(hand, cardNum);
+		} else if (suit == 3) { // Diamonds
+			cardNum = rand.nextInt(13); // 0-12 Cards
 			createCard(card, suit, cardNum);
-			hand = hand + cardNum;
+			hand = handValues(hand, cardNum);
 		}
 		return hand;
 	}
 
-
-	public void handValues(int hand){
-		//face cards
-		if(cardNum == 11 || cardNum == 12 || cardNum == 13){
+	// TODO fix aces
+	public int handValues(int hand, int cardNum) {
+		// face cards
+		if (cardNum == 10 || cardNum == 11 || cardNum == 12) {
 			hand = hand + 10;
 		}
-		//TODO
-		//ace (check for +1 or +11)
-		else if(cardNum == 1){
+		// ace (check for +1 or +11)
+		else if (cardNum == 0 && dealerTurn == false) {
+			System.out.println("ace: true");
+			int aceHand = hand;
 			hand = hand + 1;
-			if (hand <21){
-				hand = hand+11;
+			if (aceHand + 11 == 21) {
+				System.out.println("Black Jack");
+				hand = 21;
+				ace = true;
+			} else if (aceHand + 11 < 21) {
+				aceHand = aceHand + 11;
+				ace = true;
 			}
 
+		} else if (cardNum == 0 && dealerTurn == true) {
+
+			int aceHand = hand;
+			hand = hand + 1;
+
+			if (hand + 11 <= 21) {
+				aceTempHand = aceHand + 11;
+				dealerAce = true;
+				System.out.println("dealer ace: true");
+			}
 		}
+
+		else if (cardNum == 1) {
+			hand = hand + 2;
+		} else if (cardNum == 2) {
+			hand = hand + 3;
+		} else if (cardNum == 3) {
+			hand = hand + 4;
+		} else if (cardNum == 4) {
+			hand = hand + 5;
+		} else if (cardNum == 5) {
+			hand = hand + 6;
+		} else if (cardNum == 6) {
+			hand = hand + 7;
+		} else if (cardNum == 7) {
+			hand = hand + 8;
+		} else if (cardNum == 8) {
+			hand = hand + 9;
+		} else if (cardNum == 9) {
+			hand = hand + 10;
+		}
+		return hand;
 	}
 
+	@FXML
+	public void hitAction() {
+
+	}
+
+	@FXML
+	public void standAction() {
+		//hit for dealer
+	}
 
 	// Deck Matrix
 	String[][] deckPath = {
@@ -139,23 +195,22 @@ public class CardsController implements Initializable {
 			{ "ace_of_diamonds", "2_of_diamonds", "3_of_diamonds", "4_of_diamonds", "5_of_diamonds", "6_of_diamonds",
 					"7_of_diamonds", "8_of_diamonds", "9_of_diamonds", "10_of_diamonds", "jack_of_diamonds",
 					"queen_of_diamonds", "king_of_diamonds" } };
-	/*
-	 * [0][0] [0][1] [0][2] [0][3] [0][4] [0][5] [0][6] [0][7] [0][8] [0][9]
-	 * [0][10] [0][11] [0][12]
-	 *
-	 * [1]
-	 *
-	 * [2]
-	 *
-	 * [3]
-	 */
 
 	// Sets image onto the imageview card
 	public void createCard(ImageView card, int suit, int cardNum) {
 		card.setImage(new Image("/" + deckPath[suit][cardNum] + ".png"));
 		card.setVisible(true);
-		handTotal.setText("Your Hand: " + yourHand);
-		dealerTotal.setText("Dealer's Hand: " + dealerHand);
+		// if Ace
+		if (ace && !dealerTurn) {
+			handTotal.setText("Your Hand: " + yourHand + " or " + aceTempHand);
+		} else if (dealerAce && dealerTurn) {
+			dealerTotal.setText("Dealer's Hand: " + dealerHand + " or " + aceDealerTempHand);
+		} else if (!ace && !dealerTurn) {
+			handTotal.setText("Your Hand: " + yourHand);
+		} else if (!ace && dealerTurn) {
+			dealerTotal.setText("Dealer's Hand: " + dealerHand);
+		}
+
 	}
 
 	@FXML

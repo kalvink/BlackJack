@@ -162,7 +162,6 @@ public class MenuController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	@FXML
