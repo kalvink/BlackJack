@@ -43,8 +43,8 @@ public class CardsController implements Initializable {
 	@FXML
 	Button hitButton, standButton;
 
-	ImageView hitCard = new ImageView();
 	ImageView prevCard;
+	ImageView prevCardDealer;
 
 	@FXML
 	AnchorPane mainPane;
@@ -98,6 +98,7 @@ public class CardsController implements Initializable {
 			}
 			dealercard2.setImage(new Image("/back_cards.png"));
 			dealercard2.setVisible(true);
+			prevCardDealer = dealercard1;
 			dealButton.setDisable(true);
 		}
 	}
@@ -204,6 +205,24 @@ public class CardsController implements Initializable {
 	@FXML
 	public void standAction() {
 		// hit for dealer
+		if (deal) {
+
+			hitButton.setDisable(true);
+			// create imageview card for dealer
+			ImageView standCard = new ImageView();
+			Image image1 = new Image("/3_of_hearts.png");
+			standCard.setImage(image1);
+			standCard.setFitWidth(150);
+			standCard.setFitHeight(225);
+			standCard.setPreserveRatio(true);
+			dealerHand = drawCard(standCard, dealerHand);
+			standCard.relocate(prevCardDealer.getLayoutX() + 30, 85);
+			mainPane.getChildren().add(standCard);
+			prevCardDealer = standCard;
+			standCard.setVisible(true);
+			dealerTotal.setText("Dealer's Hand: " + dealerHand);
+		}
+
 	}
 
 	// Deck Matrix
