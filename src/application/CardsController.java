@@ -43,7 +43,7 @@ public class CardsController implements Initializable {
 	@FXML
 	Button hitButton, standButton;
 
-    ImageView hitCard = new ImageView();
+	ImageView hitCard = new ImageView();
 	ImageView prevCard;
 
 	@FXML
@@ -58,6 +58,7 @@ public class CardsController implements Initializable {
 	int aceTempHand = 0;
 	int aceDealerTempHand = 0;
 
+	boolean deal = false;
 	boolean dealerTurn = false;
 	boolean ace = false;
 	boolean dealerAce = false;
@@ -79,6 +80,7 @@ public class CardsController implements Initializable {
 		} else {
 			// Initiate card draws
 			// Your cards
+			deal = true;
 			yourHand = drawCard(card1, yourHand) + drawCard(card2, yourHand);
 			handTotal.setText("Your Hand: " + yourHand);
 			prevCard = card2;
@@ -179,34 +181,29 @@ public class CardsController implements Initializable {
 	}
 
 	@FXML
-	public void hitAction(){
-		//create imageview card for player
-		ImageView hitCard = new ImageView();
-		Image image1 = new Image("/3_of_hearts.png");
-		hitCard.setImage(image1);
-        hitCard.setFitWidth(150);
-        hitCard.setFitHeight(225);
-        hitCard.setPreserveRatio(true);
-        hitCard.setImage(image1);
-        hitCard.relocate(prevCard.getLayoutX()+30, 407);
-        prevCard = hitCard;
+	public void hitAction() {
 
-        mainPane.getChildren().add(hitCard);
+		if (deal) {
+			// create imageview card for player
+			ImageView hitCard = new ImageView();
+			Image image1 = new Image("/3_of_hearts.png");
+			hitCard.setImage(image1);
+			hitCard.setFitWidth(150);
+			hitCard.setFitHeight(225);
+			hitCard.setPreserveRatio(true);
+			yourHand = drawCard(hitCard, yourHand);
+			hitCard.relocate(prevCard.getLayoutX() + 30, 407);
+			mainPane.getChildren().add(hitCard);
+			prevCard = hitCard;
+			hitCard.setVisible(true);
+			handTotal.setText("Your Hand: " + yourHand);
+		}
 
-        System.out.println(card2.getLayoutX());
-        System.out.println(hitCard.getLayoutX());
-
-
-        prevCard = hitCard;
-        hitCard.setVisible(true);
-
-		handTotal.setText("Your Hand: " + yourHand);
-        System.out.println("test");
 	}
 
 	@FXML
 	public void standAction() {
-		//hit for dealer
+		// hit for dealer
 	}
 
 	// Deck Matrix
