@@ -3,7 +3,7 @@ package application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -43,11 +43,15 @@ public class CardsController implements Initializable {
 	@FXML
 	Button hitButton, standButton;
 
+	ImageView currCard;
 	ImageView prevCard;
 	ImageView prevCardDealer;
 
 	@FXML
 	AnchorPane mainPane;
+
+	@FXML
+	Group cardGroup;
 
 	int balance = MenuController.bank;
 	int bet = 0;
@@ -80,7 +84,8 @@ public class CardsController implements Initializable {
 		} else {
 			// Initiate card draws
 			// Your cards
-			deal = true;
+			startGame();
+
 			yourHand = drawCard(card1, yourHand) + drawCard(card2, yourHand);
 			handTotal.setText("Your Hand: " + yourHand);
 			prevCard = card2;
@@ -99,9 +104,49 @@ public class CardsController implements Initializable {
 			dealercard2.setImage(new Image("/back_cards.png"));
 			dealercard2.setVisible(true);
 			prevCardDealer = dealercard1;
-			dealButton.setDisable(true);
 		}
 	}
+
+	public void startGame() {
+
+		deal = true;
+
+		// Disable all chip buttons
+		bet1.setDisable(true);
+		bet5.setDisable(true);
+		bet25.setDisable(true);
+		bet50.setDisable(true);
+		bet100.setDisable(true);
+		bet500.setDisable(true);
+		dealButton.setDisable(true);
+
+	};
+
+	public void resetGame() {
+		bet1.setDisable(false);
+		bet5.setDisable(false);
+		bet25.setDisable(false);
+		bet50.setDisable(false);
+		bet100.setDisable(false);
+		bet500.setDisable(false);
+
+		bet = 0;
+		Bet.setText("Bet: $"+bet);
+		deal = false;
+		dealButton.setDisable(false);
+
+		// Removing group the contains all the hitCards/standCards
+		cardGroup.getChildren().clear();
+
+		card1.setVisible(false);
+		card2.setVisible(false);
+		dealercard1.setVisible(false);
+		dealercard2.setVisible(false);
+
+		yourHand = 0;
+		dealerHand = 0;
+
+	};
 
 	public int drawCard(ImageView card, int hand) {
 		Random rand = new Random();
@@ -185,6 +230,7 @@ public class CardsController implements Initializable {
 	public void hitAction() {
 
 		if (deal) {
+
 			// create imageview card for player
 			ImageView hitCard = new ImageView();
 			Image image1 = new Image("/3_of_hearts.png");
@@ -194,12 +240,24 @@ public class CardsController implements Initializable {
 			hitCard.setPreserveRatio(true);
 			yourHand = drawCard(hitCard, yourHand);
 			hitCard.relocate(prevCard.getLayoutX() + 30, 407);
-			mainPane.getChildren().add(hitCard);
+			cardGroup.getChildren().add(hitCard);
 			prevCard = hitCard;
 			hitCard.setVisible(true);
 			handTotal.setText("Your Hand: " + yourHand);
+
+			// bust check
+			if (yourHand > 21) {
+				System.out.println("BUST");
+				Bust();
+			}
 		}
 
+	}
+
+	public void Bust() {
+		// play some animation or popup window telling them bust
+		// then reset
+		resetGame();
 	}
 
 	@FXML
@@ -217,9 +275,10 @@ public class CardsController implements Initializable {
 			standCard.setPreserveRatio(true);
 			dealerHand = drawCard(standCard, dealerHand);
 			standCard.relocate(prevCardDealer.getLayoutX() + 30, 85);
-			mainPane.getChildren().add(standCard);
 			prevCardDealer = standCard;
 			standCard.setVisible(true);
+
+			cardGroup.getChildren().add(standCard);
 			dealerTotal.setText("Dealer's Hand: " + dealerHand);
 		}
 
