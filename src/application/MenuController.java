@@ -80,24 +80,27 @@ public class MenuController {
 
 	@FXML
 	public void startGame() {
+		if (bank == 0) {
+			// insert msg can't have 0 bank
+		} else {
+			stage = (Stage) startGame.getScene().getWindow();
 
-		stage = (Stage) startGame.getScene().getWindow();
+			try {
 
-		try {
+				VBox root = (VBox) FXMLLoader.load(getClass().getResource("/application/cards.fxml"));
+				Scene scene = new Scene(root, 1280, 800);
+				stage.setScene(scene);
+				stage.show();
+				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+				stage.setScene(scene);
+				stage.setResizable(false);
+				stage.show();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
-			VBox root = (VBox) FXMLLoader.load(getClass().getResource("/application/cards.fxml"));
-			Scene scene = new Scene(root, 1280, 800);
-			stage.setScene(scene);
-			stage.show();
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			stage.setScene(scene);
-			stage.setResizable(false);
-			stage.show();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-
 	}
 
 	@FXML
@@ -142,7 +145,6 @@ public class MenuController {
 		theBank.setText("$" + bank);
 
 	}
-
 
 	@FXML
 	public void aboutButton() {

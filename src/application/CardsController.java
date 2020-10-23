@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 public class CardsController implements Initializable {
 	private Stage stage;
@@ -141,22 +142,28 @@ public class CardsController implements Initializable {
 			bet100.setDisable(false);
 			bet500.setDisable(false);
 			deal = false;
+			dealerTurn = false;
+			dealerAce = false;
+			ace = false;
 			dealButton.setDisable(false);
+
+			hitButton.setDisable(false);
+			standButton.setDisable(false);
+
+			bet = 0;
+			Bet.setText("Bet: $" + bet);
+
+			// Removing group the contains all the hitCards/standCards
+			cardGroup.getChildren().clear();
+			card1.setVisible(false);
+			card2.setVisible(false);
+			dealercard1.setVisible(false);
+			dealercard2.setVisible(false);
+
+			yourHand = 0;
+			dealerHand = 0;
+
 		}
-		bet = 0;
-		Bet.setText("Bet: $" + bet);
-
-		// Removing group the contains all the hitCards/standCards
-		cardGroup.getChildren().clear();
-
-		card1.setVisible(false);
-		card2.setVisible(false);
-		dealercard1.setVisible(false);
-		dealercard2.setVisible(false);
-
-		yourHand = 0;
-		dealerHand = 0;
-
 	};
 
 	public int drawCard(ImageView card, int hand) {
@@ -272,23 +279,48 @@ public class CardsController implements Initializable {
 	}
 
 	@FXML
-	public void standAction() {
+	public void standAction() throws InterruptedException {
 		// hit for dealer
 		if (deal) {
 			hitButton.setDisable(true);
+			standButton.setDisable(true);
 			// create imageview card for dealer
-			ImageView standCard = new ImageView();
-			Image image1 = new Image("/3_of_hearts.png");
-			standCard.setImage(image1);
-			standCard.setFitWidth(150);
-			standCard.setFitHeight(225);
-			standCard.setPreserveRatio(true);
-			dealerHand = drawCard(standCard, dealerHand);
-			standCard.relocate(prevCardDealer.getLayoutX() + 30, 85);
-			prevCardDealer = standCard;
-			standCard.setVisible(true);
-			cardGroup.getChildren().add(standCard);
-			dealerTotal.setText("Dealer's Hand: " + dealerHand);
+
+			while (dealerHand < 17) {
+				ImageView standCard = new ImageView();
+				Image image1 = new Image("/3_of_hearts.png");
+				standCard.setImage(image1);
+				standCard.setFitWidth(150);
+				standCard.setFitHeight(225);
+				standCard.setPreserveRatio(true);
+				dealerHand = drawCard(standCard, dealerHand);
+				standCard.relocate(prevCardDealer.getLayoutX() + 30, 85);
+				prevCardDealer = standCard;
+				standCard.setVisible(true);
+				cardGroup.getChildren().add(standCard);
+				dealerTotal.setText("Dealer's Hand: " + dealerHand);
+
+			}
+			if (dealerHand == yourHand) {
+				// PUSH
+				balance = balance + bet;
+				Balance.setText("Bank: $" + balance);
+				resetGame();
+			} else if (dealerHand > 21) {
+				// Win from dealer bust
+				balance = balance + (bet * 2);
+				Balance.setText("Bank: $" + balance);
+				resetGame();
+			} else if (dealerHand < yourHand) {
+				// Win from normal win
+				balance = balance + (bet * 2);
+				Balance.setText("Bank: $" + balance);
+				resetGame();
+			} else if (dealerHand > yourHand) {
+				// you lose
+				resetGame();
+			}
+
 		}
 	}
 
