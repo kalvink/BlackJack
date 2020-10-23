@@ -34,7 +34,7 @@
                   <Image url="@../../imgs/5_of_diamonds.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="dealercard2" fitHeight="225.0" fitWidth="150.0" layoutX="580.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="dealercard2" fitHeight="225.0" fitWidth="150.0" layoutX="580.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
                   <Image url="@../../imgs/back_cards.png" />
                </image>

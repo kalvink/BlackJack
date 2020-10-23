@@ -123,17 +123,28 @@ public class CardsController implements Initializable {
 	};
 
 	public void resetGame() {
-		bet1.setDisable(false);
-		bet5.setDisable(false);
-		bet25.setDisable(false);
-		bet50.setDisable(false);
-		bet100.setDisable(false);
-		bet500.setDisable(false);
-
+		if (balance == 0) {
+			bet1.setDisable(true);
+			bet5.setDisable(true);
+			bet25.setDisable(true);
+			bet50.setDisable(true);
+			bet100.setDisable(true);
+			bet500.setDisable(true);
+			dealButton.setDisable(true);
+			hitButton.setDisable(true);
+			standButton.setDisable(true);
+		} else {
+			bet1.setDisable(false);
+			bet5.setDisable(false);
+			bet25.setDisable(false);
+			bet50.setDisable(false);
+			bet100.setDisable(false);
+			bet500.setDisable(false);
+			deal = false;
+			dealButton.setDisable(false);
+		}
 		bet = 0;
-		Bet.setText("Bet: $"+bet);
-		deal = false;
-		dealButton.setDisable(false);
+		Bet.setText("Bet: $" + bet);
 
 		// Removing group the contains all the hitCards/standCards
 		cardGroup.getChildren().clear();
@@ -264,7 +275,6 @@ public class CardsController implements Initializable {
 	public void standAction() {
 		// hit for dealer
 		if (deal) {
-
 			hitButton.setDisable(true);
 			// create imageview card for dealer
 			ImageView standCard = new ImageView();
@@ -277,11 +287,9 @@ public class CardsController implements Initializable {
 			standCard.relocate(prevCardDealer.getLayoutX() + 30, 85);
 			prevCardDealer = standCard;
 			standCard.setVisible(true);
-
 			cardGroup.getChildren().add(standCard);
 			dealerTotal.setText("Dealer's Hand: " + dealerHand);
 		}
-
 	}
 
 	// Deck Matrix
@@ -346,6 +354,7 @@ public class CardsController implements Initializable {
 	}
 
 	public void betFunction(int betAmount, Button btnX) {
+		Button betBtn[] = { bet1, bet5, bet25, bet50, bet100, bet500 };
 		if (balance >= betAmount) {
 			bet = bet + betAmount;
 			balance = balance - betAmount;
@@ -353,7 +362,23 @@ public class CardsController implements Initializable {
 			Bet.setText("Bet: $" + bet);
 		} else {
 			btnX.setDisable(true);
+			if (balance == 0)
+				for (int i = 0; i < 6; i++)
+					betBtn[i].setDisable(true);
+			else if (btnX == bet1 && balance < 1)
+				for (int i = 0; i < 6; i++)
+					betBtn[i].setDisable(true);
+			else if (btnX == bet5 && balance < 5)
+				for (int i = 1; i < 6; i++)
+					betBtn[i].setDisable(true);
+			else if (btnX == bet25 && balance < 25)
+				for (int i = 2; i < 6; i++)
+					betBtn[i].setDisable(true);
+			else if (btnX == bet50 && balance < 50)
+				for (int i = 3; i < 6; i++)
+					betBtn[i].setDisable(true);
 		}
+
 	}
 
 	@FXML
