@@ -354,31 +354,35 @@ public class CardsController implements Initializable {
 	}
 
 	public void betFunction(int betAmount, Button btnX) {
-		Button betBtn[] = { bet1, bet5, bet25, bet50, bet100, bet500 };
 		if (balance >= betAmount) {
 			bet = bet + betAmount;
 			balance = balance - betAmount;
 			Balance.setText("Bank: $" + balance);
 			Bet.setText("Bet: $" + bet);
+			disableChips();
 		} else {
 			btnX.setDisable(true);
-			if (balance == 0)
-				for (int i = 0; i < 6; i++)
-					betBtn[i].setDisable(true);
-			else if (btnX == bet1 && balance < 1)
-				for (int i = 0; i < 6; i++)
-					betBtn[i].setDisable(true);
-			else if (btnX == bet5 && balance < 5)
-				for (int i = 1; i < 6; i++)
-					betBtn[i].setDisable(true);
-			else if (btnX == bet25 && balance < 25)
-				for (int i = 2; i < 6; i++)
-					betBtn[i].setDisable(true);
-			else if (btnX == bet50 && balance < 50)
-				for (int i = 3; i < 6; i++)
-					betBtn[i].setDisable(true);
+
 		}
 
+	}
+
+	public void disableChips() {
+		for (int i = 0; i < 6; i++) {
+			if (balance < 500 && !bet500.isDisable()) {
+				bet500.setDisable(true);
+			} else if (balance < 100 && !bet100.isDisable()) {
+				bet100.setDisable(true);
+			} else if (balance < 50 && !bet50.isDisable()) {
+				bet50.setDisable(true);
+			} else if (balance < 25 && !bet25.isDisable()) {
+				bet25.setDisable(true);
+			} else if (balance < 5 && !bet5.isDisable()) {
+				bet5.setDisable(true);
+			} else if (balance < 1 && !bet1.isDisable()) {
+				bet1.setDisable(true);
+			}
+		}
 	}
 
 	@FXML
