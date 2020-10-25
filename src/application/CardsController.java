@@ -32,6 +32,8 @@ public class CardsController implements Initializable {
 	@FXML
 	TextField Bet = new TextField();
 	@FXML
+	Button resetBet;
+	@FXML
 	Text dealerTotal = new Text();
 	@FXML
 	Text handTotal = new Text();
@@ -79,17 +81,29 @@ public class CardsController implements Initializable {
 		Balance.setFocusTraversable(false);
 	}
 
+	int ace_Hand = 0;
+
 	@FXML
 	public void dealFunction() {
+
 		if (bet == 0) {
 		} else {
 			// Initiate card draws
-			// Your cards
 			startGame();
 
+			// Your cards
 			yourHand = drawCard(card1, yourHand) + drawCard(card2, yourHand);
-			handTotal.setText("Your Hand: " + yourHand);
+			ace_Hand = yourHand + 10;
+			// If drew ace set text
+			if (ace && ace_Hand < 21) {
+				handTotal.setText("Your Hand: " + yourHand + " or " + ace_Hand);
+			} else {
+				handTotal.setText("Your Hand: " + yourHand);
+			}
 			prevCard = card2;
+
+			// Your Ace
+
 			// Dealer
 			dealerTurn = true;
 			dealerHand = drawCard(dealercard1, dealerHand);
@@ -111,8 +125,11 @@ public class CardsController implements Initializable {
 	public void startGame() {
 
 		deal = true;
+		hitButton.setDisable(false);
+		standButton.setDisable(false);
 
 		// Disable all chip buttons
+		resetBet.setDisable(true);
 		bet1.setDisable(true);
 		bet5.setDisable(true);
 		bet25.setDisable(true);
@@ -121,7 +138,7 @@ public class CardsController implements Initializable {
 		bet500.setDisable(true);
 		dealButton.setDisable(true);
 
-	};
+	}
 
 	public void resetGame() {
 		if (balance == 0) {
@@ -147,8 +164,8 @@ public class CardsController implements Initializable {
 			ace = false;
 			dealButton.setDisable(false);
 
-			hitButton.setDisable(false);
-			standButton.setDisable(false);
+			hitButton.setDisable(true);
+			standButton.setDisable(true);
 
 			bet = 0;
 			Bet.setText("Bet: $" + bet);
@@ -164,7 +181,7 @@ public class CardsController implements Initializable {
 			dealerHand = 0;
 
 		}
-	};
+	}
 
 	public int drawCard(ImageView card, int hand) {
 		Random rand = new Random();
@@ -263,8 +280,12 @@ public class CardsController implements Initializable {
 			hitCard.setVisible(true);
 			handTotal.setText("Your Hand: " + yourHand);
 
+			if (yourHand == 21) {
+				System.out.println("Blackjack");
+				BlackJack();
+			}
 			// bust check
-			if (yourHand > 21) {
+			else if (yourHand > 21) {
 				System.out.println("BUST");
 				Bust();
 			}
@@ -275,7 +296,30 @@ public class CardsController implements Initializable {
 	public void Bust() {
 		// play some animation or popup window telling them bust
 		// then reset
+
 		resetGame();
+	}
+
+	public void BlackJack() {
+
+		hitButton.setDisable(true);
+		standButton.setDisable(true);
+
+		while (dealerHand < 17) {
+			ImageView standCard = new ImageView();
+			Image image1 = new Image("/3_of_hearts.png");
+			standCard.setImage(image1);
+			standCard.setFitWidth(150);
+			standCard.setFitHeight(225);
+			standCard.setPreserveRatio(true);
+			dealerHand = drawCard(standCard, dealerHand);
+			standCard.relocate(prevCardDealer.getLayoutX() + 30, 85);
+			prevCardDealer = standCard;
+			standCard.setVisible(true);
+			cardGroup.getChildren().add(standCard);
+			dealerTotal.setText("Dealer's Hand: " + dealerHand);
+
+		}
 	}
 
 	@FXML
@@ -286,21 +330,25 @@ public class CardsController implements Initializable {
 			standButton.setDisable(true);
 			// create imageview card for dealer
 
-			while (dealerHand < 17) {
-				ImageView standCard = new ImageView();
-				Image image1 = new Image("/3_of_hearts.png");
-				standCard.setImage(image1);
-				standCard.setFitWidth(150);
-				standCard.setFitHeight(225);
-				standCard.setPreserveRatio(true);
-				dealerHand = drawCard(standCard, dealerHand);
-				standCard.relocate(prevCardDealer.getLayoutX() + 30, 85);
-				prevCardDealer = standCard;
-				standCard.setVisible(true);
-				cardGroup.getChildren().add(standCard);
-				dealerTotal.setText("Dealer's Hand: " + dealerHand);
+			boolean ddd = false;
+			if (dealerHand < 17) {
 
 			}
+			ImageView standCard = new ImageView();
+			Image image1 = new Image("/3_of_hearts.png");
+			standCard.setImage(image1);
+			standCard.setFitWidth(150);
+			standCard.setFitHeight(225);
+			standCard.setPreserveRatio(true);
+			dealerHand = drawCard(standCard, dealerHand);
+			standCard.relocate(prevCardDealer.getLayoutX() + 30, 85);
+			prevCardDealer = standCard;
+			standCard.setVisible(true);
+			cardGroup.getChildren().add(standCard);
+			dealerTotal.setText("Dealer's Hand: " + dealerHand);
+
+			Thread.sleep(750);
+
 			if (dealerHand == yourHand) {
 				// PUSH
 				balance = balance + bet;
@@ -320,7 +368,6 @@ public class CardsController implements Initializable {
 				// you lose
 				resetGame();
 			}
-
 		}
 	}
 
@@ -356,6 +403,24 @@ public class CardsController implements Initializable {
 	}
 
 	@FXML
+	public void resetBet() {
+		resetBet.setDisable(false);
+		if (!deal) {
+			balance = balance + bet;
+			bet = 0;
+			Balance.setText("Bank: $" + balance);
+			Bet.setText("Bet: $" + bet);
+
+			bet1.setDisable(false);
+			bet5.setDisable(false);
+			bet25.setDisable(false);
+			bet50.setDisable(false);
+			bet100.setDisable(false);
+			bet500.setDisable(false);
+		}
+	}
+
+	@FXML
 	public void bet1() {
 		betFunction(1, bet1);
 	}
@@ -386,6 +451,8 @@ public class CardsController implements Initializable {
 	}
 
 	public void betFunction(int betAmount, Button btnX) {
+		resetBet.setDisable(false);
+
 		if (balance >= betAmount) {
 			bet = bet + betAmount;
 			balance = balance - betAmount;

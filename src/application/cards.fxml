@@ -77,17 +77,22 @@
                   <Font name="System Bold" size="40.0" />
                </font>
             </Button>
-          <Button fx:id="hitButton" layoutX="517.0" layoutY="704.0" mnemonicParsing="false" onAction="#hitAction" prefHeight="65.0" prefWidth="128.0" text="HIT">
+          <Button fx:id="hitButton" disable="true" layoutX="517.0" layoutY="704.0" mnemonicParsing="false" onAction="#hitAction" prefHeight="65.0" prefWidth="128.0" text="HIT">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>
             </Button>
-            <Button fx:id="standButton" layoutX="657.0" layoutY="704.0" mnemonicParsing="false" onAction="#standAction" prefHeight="65.0" prefWidth="128.0" text="STAND">
+            <Button fx:id="standButton" disable="true" layoutX="657.0" layoutY="704.0" mnemonicParsing="false" onAction="#standAction" prefHeight="65.0" prefWidth="128.0" text="STAND">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>
             </Button>
             <Group fx:id="cardGroup" />
+            <Button fx:id="resetBet" disable="true" layoutX="14.0" layoutY="603.0" mnemonicParsing="false" onAction="#resetBet" prefHeight="33.0" prefWidth="302.0" text="RESET BET">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Button>
       </children>
     </AnchorPane>
   </children>
