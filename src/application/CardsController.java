@@ -64,11 +64,29 @@ public class CardsController implements Initializable {
 	int dealerHand = 0;
 	int aceTempHand = 0;
 	int aceDealerTempHand = 0;
+	int cardCount = 0;
+	int dealerCount = 0;
+	int ace_Hand = 0;
 
+	boolean face = false;
 	boolean deal = false;
 	boolean dealerTurn = false;
 	boolean ace = false;
 	boolean dealerAce = false;
+
+	// Deck Matrix
+	String[][] deckPath = {
+			{ "ace_of_spades", "2_of_spades", "3_of_spades", "4_of_spades", "5_of_spades", "6_of_spades", "7_of_spades",
+					"8_of_spades", "9_of_spades", "10_of_spades", "jack_of_spades", "queen_of_spades",
+					"king_of_spades" },
+			{ "ace_of_hearts", "2_of_hearts", "3_of_hearts", "4_of_hearts", "5_of_hearts", "6_of_hearts", "7_of_hearts",
+					"8_of_hearts", "9_of_hearts", "10_of_hearts", "jack_of_hearts", "queen_of_hearts",
+					"king_of_hearts" },
+			{ "ace_of_clubs", "2_of_clubs", "3_of_clubs", "4_of_clubs", "5_of_clubs", "6_of_clubs", "7_of_clubs",
+					"8_of_clubs", "9_of_clubs", "10_of_clubs", "jack_of_clubs", "queen_of_clubs", "king_of_clubs" },
+			{ "ace_of_diamonds", "2_of_diamonds", "3_of_diamonds", "4_of_diamonds", "5_of_diamonds", "6_of_diamonds",
+					"7_of_diamonds", "8_of_diamonds", "9_of_diamonds", "10_of_diamonds", "jack_of_diamonds",
+					"queen_of_diamonds", "king_of_diamonds" } };
 
 	int[] spades = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
 	int[] hearts = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
@@ -81,8 +99,6 @@ public class CardsController implements Initializable {
 		Balance.setFocusTraversable(false);
 	}
 
-	int ace_Hand = 0;
-
 	@FXML
 	public void dealFunction() {
 
@@ -94,6 +110,8 @@ public class CardsController implements Initializable {
 			// Your cards
 			yourHand = drawCard(card1, yourHand) + drawCard(card2, yourHand);
 			ace_Hand = yourHand + 10;
+
+			cardCount = 2;
 			// If drew ace set text
 			if (ace && ace_Hand < 21) {
 				handTotal.setText("Your Hand: " + yourHand + " or " + ace_Hand);
@@ -102,14 +120,11 @@ public class CardsController implements Initializable {
 			}
 			prevCard = card2;
 
-			// Your Ace
-
 			// Dealer
 			dealerTurn = true;
 			dealerHand = drawCard(dealercard1, dealerHand);
 			System.out.println("\nyour hand: " + yourHand);
 			System.out.println("\ndealer hand: " + dealerHand);
-
 			// Dealer Ace
 			if (dealerAce) {
 				dealerTotal.setText("Dealer's Hand: " + dealerHand + " or " + 11);
@@ -119,6 +134,14 @@ public class CardsController implements Initializable {
 			dealercard2.setImage(new Image("/back_cards.png"));
 			dealercard2.setVisible(true);
 			prevCardDealer = dealercard1;
+			dealerTurn = false;
+			dealerCount = 1;
+
+			if (face && ace) {
+				BlackJack();
+				handTotal.setText("Your Hand: " + yourHand);
+			}
+
 		}
 	}
 
@@ -171,11 +194,11 @@ public class CardsController implements Initializable {
 			Bet.setText("Bet: $" + bet);
 
 			// Removing group the contains all the hitCards/standCards
-			cardGroup.getChildren().clear();
-			card1.setVisible(false);
-			card2.setVisible(false);
-			dealercard1.setVisible(false);
-			dealercard2.setVisible(false);
+			// cardGroup.getChildren().clear();
+			// card1.setVisible(false);
+			// card2.setVisible(false);
+			// dealercard1.setVisible(false);
+			// dealercard2.setVisible(false);
 
 			yourHand = 0;
 			dealerHand = 0;
@@ -207,13 +230,41 @@ public class CardsController implements Initializable {
 		return hand;
 	}
 
+	// Sets image onto the imageview card
+	public void createCard(ImageView card, int suit, int cardNum) {
+		card.setImage(new Image("/" + deckPath[suit][cardNum] + ".png"));
+		card.setVisible(true);
+
+		// if player has ace
+		if (ace && !dealerTurn) {
+			handTotal.setText("Your Hand: " + yourHand + " or " + aceTempHand);
+			// if dealer has ace
+		} else if (dealerAce && dealerTurn) {
+			dealerTotal.setText("Dealer's Hand: " + dealerHand + " or " + aceDealerTempHand);
+
+			// if player has no ace
+		} else if (!ace && !dealerTurn) {
+			handTotal.setText("Your Hand: " + yourHand);
+			// if dealer has no ace
+		} else if (!dealerAce && dealerTurn) {
+			dealerTotal.setText("Dealer's Hand: " + dealerHand);
+		}
+
+	}
+
 	// TODO fix aces
 	public int handValues(int hand, int cardNum) {
-		// face cards
-		if (cardNum == 10 || cardNum == 11 || cardNum == 12) {
+
+		if (dealerTurn && cardCount == 2 && (cardNum == 10 || cardNum == 11 || cardNum == 12)) {
 			hand = hand + 10;
+			// dealerface = true;
 		}
-		// ace (check for +1 or +11)
+		// face cards
+		if (!dealerTurn && (cardNum == 10 || cardNum == 11 || cardNum == 12)) {
+			hand = hand + 10;
+			face = true;
+		}
+		// player's ace (check for +1 or +11)
 		else if (cardNum == 0 && dealerTurn == false) {
 			System.out.println("ace: true");
 			int aceHand = hand;
@@ -222,6 +273,8 @@ public class CardsController implements Initializable {
 				System.out.println("Black Jack");
 				hand = 21;
 				ace = true;
+				dealForDealer();
+
 			} else if (aceHand + 11 < 21) {
 				aceHand = aceHand + 11;
 				ace = true;
@@ -278,6 +331,7 @@ public class CardsController implements Initializable {
 			cardGroup.getChildren().add(hitCard);
 			prevCard = hitCard;
 			hitCard.setVisible(true);
+
 			handTotal.setText("Your Hand: " + yourHand);
 
 			if (yourHand == 21) {
@@ -305,62 +359,58 @@ public class CardsController implements Initializable {
 		hitButton.setDisable(true);
 		standButton.setDisable(true);
 
-		while (dealerHand < 17) {
-			ImageView standCard = new ImageView();
-			Image image1 = new Image("/3_of_hearts.png");
-			standCard.setImage(image1);
-			standCard.setFitWidth(150);
-			standCard.setFitHeight(225);
-			standCard.setPreserveRatio(true);
-			dealerHand = drawCard(standCard, dealerHand);
-			standCard.relocate(prevCardDealer.getLayoutX() + 30, 85);
-			prevCardDealer = standCard;
-			standCard.setVisible(true);
-			cardGroup.getChildren().add(standCard);
-			dealerTotal.setText("Dealer's Hand: " + dealerHand);
+		dealForDealer();
 
-		}
 	}
 
 	@FXML
 	public void standAction() throws InterruptedException {
 		// hit for dealer
+		dealForDealer();
+	}
+
+	public void dealForDealer() {
 		if (deal) {
+			dealerTurn = true;
 			hitButton.setDisable(true);
 			standButton.setDisable(true);
 			// create imageview card for dealer
 
-			boolean ddd = false;
-			if (dealerHand < 17) {
+			while (dealerHand < 17) {
+
+				ImageView standCard = new ImageView();
+				Image image1 = new Image("/3_of_hearts.png");
+				standCard.setImage(image1);
+				standCard.setFitWidth(150);
+				standCard.setFitHeight(225);
+				standCard.setPreserveRatio(true);
+				dealerHand = drawCard(standCard, dealerHand);
+				standCard.relocate(prevCardDealer.getLayoutX() + 30, 85);
+				prevCardDealer = standCard;
+				standCard.setVisible(true);
+				cardGroup.getChildren().add(standCard);
+				dealerTotal.setText("Dealer's Hand: " + dealerHand);
+
+				if (dealerAce && face) {
+
+				}
 
 			}
-			ImageView standCard = new ImageView();
-			Image image1 = new Image("/3_of_hearts.png");
-			standCard.setImage(image1);
-			standCard.setFitWidth(150);
-			standCard.setFitHeight(225);
-			standCard.setPreserveRatio(true);
-			dealerHand = drawCard(standCard, dealerHand);
-			standCard.relocate(prevCardDealer.getLayoutX() + 30, 85);
-			prevCardDealer = standCard;
-			standCard.setVisible(true);
-			cardGroup.getChildren().add(standCard);
-			dealerTotal.setText("Dealer's Hand: " + dealerHand);
-
-			Thread.sleep(750);
-
 			if (dealerHand == yourHand) {
 				// PUSH
+				System.out.println("Push - your hand:" + yourHand + " vs dealer hand:" + dealerHand);
 				balance = balance + bet;
 				Balance.setText("Bank: $" + balance);
 				resetGame();
 			} else if (dealerHand > 21) {
 				// Win from dealer bust
+				System.out.println("Win from Dealer Bust - your hand:" + yourHand + " vs dealer hand:" + dealerHand);
 				balance = balance + (bet * 2);
 				Balance.setText("Bank: $" + balance);
 				resetGame();
 			} else if (dealerHand < yourHand) {
 				// Win from normal win
+				System.out.println("Normal Win - your hand:" + yourHand + " vs dealer hand:" + dealerHand);
 				balance = balance + (bet * 2);
 				Balance.setText("Bank: $" + balance);
 				resetGame();
@@ -368,38 +418,8 @@ public class CardsController implements Initializable {
 				// you lose
 				resetGame();
 			}
+
 		}
-	}
-
-	// Deck Matrix
-	String[][] deckPath = {
-			{ "ace_of_spades", "2_of_spades", "3_of_spades", "4_of_spades", "5_of_spades", "6_of_spades", "7_of_spades",
-					"8_of_spades", "9_of_spades", "10_of_spades", "jack_of_spades", "queen_of_spades",
-					"king_of_spades" },
-			{ "ace_of_hearts", "2_of_hearts", "3_of_hearts", "4_of_hearts", "5_of_hearts", "6_of_hearts", "7_of_hearts",
-					"8_of_hearts", "9_of_hearts", "10_of_hearts", "jack_of_hearts", "queen_of_hearts",
-					"king_of_hearts" },
-			{ "ace_of_clubs", "2_of_clubs", "3_of_clubs", "4_of_clubs", "5_of_clubs", "6_of_clubs", "7_of_clubs",
-					"8_of_clubs", "9_of_clubs", "10_of_clubs", "jack_of_clubs", "queen_of_clubs", "king_of_clubs" },
-			{ "ace_of_diamonds", "2_of_diamonds", "3_of_diamonds", "4_of_diamonds", "5_of_diamonds", "6_of_diamonds",
-					"7_of_diamonds", "8_of_diamonds", "9_of_diamonds", "10_of_diamonds", "jack_of_diamonds",
-					"queen_of_diamonds", "king_of_diamonds" } };
-
-	// Sets image onto the imageview card
-	public void createCard(ImageView card, int suit, int cardNum) {
-		card.setImage(new Image("/" + deckPath[suit][cardNum] + ".png"));
-		card.setVisible(true);
-		// if Ace
-		if (ace && !dealerTurn) {
-			handTotal.setText("Your Hand: " + yourHand + " or " + aceTempHand);
-		} else if (dealerAce && dealerTurn) {
-			dealerTotal.setText("Dealer's Hand: " + dealerHand + " or " + aceDealerTempHand);
-		} else if (!ace && !dealerTurn) {
-			handTotal.setText("Your Hand: " + yourHand);
-		} else if (!ace && dealerTurn) {
-			dealerTotal.setText("Dealer's Hand: " + dealerHand);
-		}
-
 	}
 
 	@FXML
