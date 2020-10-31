@@ -11,9 +11,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -26,29 +29,19 @@ public class CardsController implements Initializable {
 	private Stage stage;
 
 	@FXML
-	Button backToPlayMenu;
+	Button backToPlayMenu, resetBet, bet1, bet5, bet25, bet50, bet100, bet500, dealButton, hitButton, standButton;
 	@FXML
 	TextField Balance = new TextField();
 	@FXML
 	TextField Bet = new TextField();
 	@FXML
-	Button resetBet;
-	@FXML
 	Text dealerTotal = new Text();
 	@FXML
 	Text handTotal = new Text();
 	@FXML
-	Button bet1, bet5, bet25, bet50, bet100, bet500, dealButton;
-	@FXML
-	ImageView card1, card2;
-	@FXML
-	ImageView dealercard1, dealercard2;
-	@FXML
-	Button hitButton, standButton;
+	ImageView card1, card2, dealercard1, dealercard2;
 
-	ImageView currCard;
-	ImageView prevCard;
-	ImageView prevCardDealer;
+	ImageView currCard, prevCard, prevCardDealer;
 
 	@FXML
 	AnchorPane mainPane;
@@ -57,9 +50,7 @@ public class CardsController implements Initializable {
 	Group cardGroup;
 
 	int balance = MenuController.bank;
-	int bet = 0;
-	int suit = 0;
-	int cardNum = 0;
+	int bet = 0, suit = 0, cardNum = 0;
 	int yourHand = 0;
 	int dealerHand = 0;
 	int aceTempHand = 0;
@@ -68,11 +59,7 @@ public class CardsController implements Initializable {
 	int dealerCount = 0;
 	int ace_Hand = 0;
 
-	boolean face = false;
-	boolean deal = false;
-	boolean dealerTurn = false;
-	boolean ace = false;
-	boolean dealerAce = false;
+	boolean face = false, deal = false, dealerTurn = false, ace = false, dealerAce = false;
 
 	// Deck Matrix
 	String[][] deckPath = {
@@ -92,6 +79,9 @@ public class CardsController implements Initializable {
 	int[] hearts = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
 	int[] clubs = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
 	int[] diamonds = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
+
+	// Audio
+	String dealingCard = "sound/dealingcard.wav";
 
 	@FXML
 	public void loadBalance() {
@@ -206,7 +196,16 @@ public class CardsController implements Initializable {
 		}
 	}
 
+	public void playSound(String path) {
+		Media media = new Media(new File(path).toURI().toString());
+		MediaPlayer mediaPlayer = new MediaPlayer(media);
+		mediaPlayer.setAutoPlay(true);
+
+	}
+
 	public int drawCard(ImageView card, int hand) {
+		playSound(dealingCard);
+
 		Random rand = new Random();
 		// 0-3 Suits
 		suit = rand.nextInt(4);
