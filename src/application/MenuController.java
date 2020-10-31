@@ -151,7 +151,7 @@ public class MenuController {
 		stage = (Stage) playButton.getScene().getWindow();
 
 		try {
-			VBox root = (VBox) FXMLLoader.load(getClass().getResource("cards.fxml"));
+			VBox root = (VBox) FXMLLoader.load(getClass().getResource("about.fxml"));
 			Scene scene = new Scene(root, 1280, 800);
 			stage.setScene(scene);
 			stage.show();

@@ -104,6 +104,12 @@ public class CardsController implements Initializable {
 
 		if (bet == 0) {
 		} else {
+			// Removing group the contains all the hitCards/standCards
+			cardGroup.getChildren().clear();
+			card1.setVisible(false);
+			card2.setVisible(false);
+			dealercard1.setVisible(false);
+			dealercard2.setVisible(false);
 			// Initiate card draws
 			startGame();
 
@@ -139,6 +145,7 @@ public class CardsController implements Initializable {
 
 			if (face && ace) {
 				BlackJack();
+				yourHand = 21;
 				handTotal.setText("Your Hand: " + yourHand);
 			}
 
@@ -192,13 +199,6 @@ public class CardsController implements Initializable {
 
 			bet = 0;
 			Bet.setText("Bet: $" + bet);
-
-			// Removing group the contains all the hitCards/standCards
-			// cardGroup.getChildren().clear();
-			// card1.setVisible(false);
-			// card2.setVisible(false);
-			// dealercard1.setVisible(false);
-			// dealercard2.setVisible(false);
 
 			yourHand = 0;
 			dealerHand = 0;
@@ -311,6 +311,7 @@ public class CardsController implements Initializable {
 		} else if (cardNum == 9) {
 			hand = hand + 10;
 		}
+
 		return hand;
 	}
 
