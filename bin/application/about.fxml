@@ -8,9 +8,12 @@
 
 <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MenuController">
   <children>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="-1.0" prefWidth="-1.0" style="-fx-background-color: #1f827f;" VBox.vgrow="ALWAYS">
          <children>
-            <Button fx:id="backToMenu" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#backToMenu" prefHeight="69.0" prefWidth="243.0" text="BACK" />
+            <Button fx:id="backToMenu" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#backToMenu" prefHeight="69.0" prefWidth="243.0" text="BACK">
+               <font>
+                  <Font name="System Bold" size="32.0" />
+               </font></Button>
             <TextArea editable="false" layoutX="187.0" layoutY="173.0" prefHeight="455.0" prefWidth="906.0" text="BlackJack created by Kalvin Kao&#10;&#10;&#10;https://github.com/kalvink/&#10;https://www.linkedin.com/in/kalvinkao/&#10;http://kalvinkao.rf.gd/">
                <font>
                   <Font name="System Bold" size="35.0" />

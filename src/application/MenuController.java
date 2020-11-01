@@ -67,7 +67,7 @@ public class MenuController {
 			Scene scene = new Scene(root, 1280, 800);
 			stage.setScene(scene);
 			stage.show();
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("menu.css").toExternalForm());
 			stage.setScene(scene);
 			stage.setResizable(false);
 			stage.show();

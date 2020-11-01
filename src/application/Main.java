@@ -15,7 +15,7 @@ public class Main extends Application {
 		try {
 			VBox root = (VBox) FXMLLoader.load(getClass().getResource("menu.fxml"));
 			Scene scene = new Scene(root, 1280, 800);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("menu.css").toExternalForm());
 			Stage publicStage = primaryStage;
 			publicStage.setScene(scene);
 			//todo add resizable canvas later?

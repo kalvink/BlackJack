@@ -13,6 +13,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -336,10 +339,13 @@ public class CardsController implements Initializable {
 
 			if (yourHand == 21) {
 				System.out.println("Blackjack");
+				//endMessage("Blackjack");
+
 				BlackJack();
 			}
 			// bust check
 			else if (yourHand > 21) {
+				endMessage("Bust");
 				System.out.println("BUST");
 				Bust();
 			}
@@ -399,6 +405,9 @@ public class CardsController implements Initializable {
 			if (dealerHand == yourHand) {
 				// PUSH
 				System.out.println("Push - your hand:" + yourHand + " vs dealer hand:" + dealerHand);
+
+				endMessage("Push");
+
 				balance = balance + bet;
 				Balance.setText("Bank: $" + balance);
 				resetGame();
@@ -407,19 +416,45 @@ public class CardsController implements Initializable {
 				System.out.println("Win from Dealer Bust - your hand:" + yourHand + " vs dealer hand:" + dealerHand);
 				balance = balance + (bet * 2);
 				Balance.setText("Bank: $" + balance);
+
+				endMessage("Win");
+
+
 				resetGame();
 			} else if (dealerHand < yourHand) {
+
 				// Win from normal win
 				System.out.println("Normal Win - your hand:" + yourHand + " vs dealer hand:" + dealerHand);
 				balance = balance + (bet * 2);
 				Balance.setText("Bank: $" + balance);
 				resetGame();
+
+				endMessage("Win");
+
+
 			} else if (dealerHand > yourHand) {
 				// you lose
 				resetGame();
+				endMessage("Lose");
+
 			}
 
 		}
+	}
+
+	public void endMessage(String a) {
+
+		Text push = new Text();
+		push.setText(a);
+		push.setX(580);
+		push.setY(350);
+		push.setFont((Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 40)));
+		push.setScaleX(1);
+		push.setScaleY(1);
+		cardGroup.getChildren().add(push);
+		push.setVisible(true);
+
+
 	}
 
 	@FXML
