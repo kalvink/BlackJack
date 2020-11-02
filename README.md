@@ -26,7 +26,9 @@ Other
 
 ![Bank](https://i.imgur.com/BCk1r0u.png)
 
-![Play]( )
+![Play](https://i.imgur.com/VusxP98.png)
+
+![Play2](https://i.imgur.com/UoXNhIH.png)
 
 
 
