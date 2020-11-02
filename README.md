@@ -4,21 +4,21 @@
 WIP - Blackjack game built with Java and JavaFX library.
 <br>
 
-Features
-- Blackjack 
+Features:
+- Blackjack
 
-Libaries
+Libaries:
 - JavaFX
 
-Tools used
+Tools used:
 - Eclipse
 - JavaFX SceneBuilder
 
-Sound Effects
+Sound Effects:
 - Dealing card
 https://freesound.org/people/f4ngy/sounds/240777/
 
-Other
+Screenshots:
 
 ![Blackjack by Kalvin Kao](https://i.imgur.com/LyZapow.png)
 
