@@ -20,6 +20,13 @@ https://freesound.org/people/f4ngy/sounds/240777/
 
 Other
 
-![Blackjack by Kalvin Kao](https://i.imgur.com/QDHndHG.png)
+![Blackjack by Kalvin Kao](https://i.imgur.com/LyZapow.png)
+
+![About](https://i.imgur.com/0LESqdd.png)
+
+![Bank](https://i.imgur.com/BCk1r0u.png)
+
+![Play]( )
+
 
 
