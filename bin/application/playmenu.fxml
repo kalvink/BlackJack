@@ -20,7 +20,7 @@
                <font>
                   <Font name="System Bold" size="32.0" />
                </font></Button>
-            <Text layoutX="361.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="INSERT MONEY INTO YOUR BANK" textAlignment="CENTER" underline="true" wrappingWidth="560.509765625">
+            <Text layoutX="360.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DEPOSIT MONEY INTO YOUR BANK" textAlignment="CENTER" underline="true" wrappingWidth="560.509765625">
                <font>
                   <Font name="System Bold" size="33.0" />
                </font>

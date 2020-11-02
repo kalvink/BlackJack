@@ -3,6 +3,7 @@ package application;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -22,7 +23,7 @@ public class Main extends Application {
 			publicStage.setResizable(false);
 			//publicStage.setFullScreen(true);
 			publicStage.setTitle("Black Jack by Kalvin Kao");
-			//publicStage.getIcons().add(new Image("logo.png"));
+			publicStage.getIcons().add(new Image("ace_of_spades.png"));
 			publicStage.show();
 
 

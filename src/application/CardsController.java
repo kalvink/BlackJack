@@ -260,11 +260,14 @@ public class CardsController implements Initializable {
 		if (dealerTurn && cardCount == 2 && (cardNum == 10 || cardNum == 11 || cardNum == 12)) {
 			hand = hand + 10;
 			// dealerface = true;
+			System.out.println("face cards 1");
+
 		}
 		// face cards
 		if (!dealerTurn && (cardNum == 10 || cardNum == 11 || cardNum == 12)) {
 			hand = hand + 10;
 			face = true;
+			System.out.println("face cards 2");
 		}
 		// player's ace (check for +1 or +11)
 		else if (cardNum == 0 && dealerTurn == false) {
@@ -339,7 +342,7 @@ public class CardsController implements Initializable {
 
 			if (yourHand == 21) {
 				System.out.println("Blackjack");
-				//endMessage("Blackjack");
+				// endMessage("Blackjack");
 
 				BlackJack();
 			}
@@ -397,10 +400,6 @@ public class CardsController implements Initializable {
 				cardGroup.getChildren().add(standCard);
 				dealerTotal.setText("Dealer's Hand: " + dealerHand);
 
-				if (dealerAce && face) {
-
-				}
-
 			}
 			if (dealerHand == yourHand) {
 				// PUSH
@@ -419,7 +418,6 @@ public class CardsController implements Initializable {
 
 				endMessage("Win");
 
-
 				resetGame();
 			} else if (dealerHand < yourHand) {
 
@@ -430,7 +428,6 @@ public class CardsController implements Initializable {
 				resetGame();
 
 				endMessage("Win");
-
 
 			} else if (dealerHand > yourHand) {
 				// you lose
@@ -453,7 +450,6 @@ public class CardsController implements Initializable {
 		push.setScaleY(1);
 		cardGroup.getChildren().add(push);
 		push.setVisible(true);
-
 
 	}
 
