@@ -1,7 +1,6 @@
 # BlackJack by Kalvin Kao
  
-
-WIP - Blackjack game built with Java and JavaFX library.
+Blackjack game built with Java and JavaFX library.
 <br>
 
 Features:
