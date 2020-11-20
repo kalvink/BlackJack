@@ -195,6 +195,7 @@ public class CardsController implements Initializable {
 
 			yourHand = 0;
 			dealerHand = 0;
+			face = false;
 
 		}
 	}
@@ -257,7 +258,7 @@ public class CardsController implements Initializable {
 	// TODO fix aces
 	public int handValues(int hand, int cardNum) {
 
-		if (dealerTurn && cardCount == 2 && (cardNum == 10 || cardNum == 11 || cardNum == 12)) {
+		if (dealerTurn && (cardNum == 10 || cardNum == 11 || cardNum == 12)) {
 			hand = hand + 10;
 			// dealerface = true;
 			System.out.println("face cards 1");
@@ -268,6 +269,7 @@ public class CardsController implements Initializable {
 			hand = hand + 10;
 			face = true;
 			System.out.println("face cards 2");
+
 		}
 		// player's ace (check for +1 or +11)
 		else if (cardNum == 0 && dealerTurn == false) {
